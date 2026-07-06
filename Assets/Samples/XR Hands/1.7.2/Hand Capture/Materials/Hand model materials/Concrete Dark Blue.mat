@@ -150,7 +150,7 @@ Material:
     - _BaseColor: {r: 0.09255961, g: 0.17038631, b: 0.30188674, a: 1}
     - _BumpOffset: {r: 0, g: 0, b: 0, a: 0}
     - _BumpTiling: {r: 4, g: 2, b: 0, a: 0}
-    - _Color: {r: 0.4078431, g: 0.61960775, b: 0.84705883, a: 1}
+    - _Color: {r: 0.09255958, g: 0.17038628, b: 0.3018867, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
@@ -167,4 +167,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 5
+  version: 10
