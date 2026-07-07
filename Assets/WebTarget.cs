@@ -43,6 +43,9 @@ public class WebTarget : MonoBehaviour
         if (m_Renderer) m_BaseColor = m_Renderer.material.color;
     }
 
+    void OnEnable()  { WebTargetRegistry.Register(transform); }
+    void OnDisable() { WebTargetRegistry.Unregister(transform); }
+
     // Called by the web shooter when a web raycast hits this object's collider.
     public void OnWebHit(RaycastHit hit)
     {

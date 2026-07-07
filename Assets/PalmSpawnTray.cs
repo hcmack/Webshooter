@@ -50,6 +50,8 @@ public class PalmSpawnTray : MonoBehaviour
 
     [Header("Throw")]
     [SerializeField] float m_ThrowScale = 1.4f;
+    [Tooltip("Cap on throw speed (m/s). Stops fast throws tunneling through floor.")]
+    [SerializeField] float m_MaxThrowSpeed = 6f;
     [SerializeField] LayerMask m_LandingMask = ~0;
 
     [Header("Debug feedback")]
@@ -277,7 +279,12 @@ public class PalmSpawnTray : MonoBehaviour
         if (body != null)
         {
             body.useGravity = true;
+            // cap speed so a hard throw can't tunnel through thin floor mesh
+            if (velocity.magnitude > m_MaxThrowSpeed)
+                velocity = velocity.normalized * m_MaxThrowSpeed;
             body.linearVelocity = velocity;
+            // sweep the path between physics steps so it can't skip the floor
+            body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         }
 
         var lander = thrown.AddComponent<ThrownMiniLander>();
@@ -337,7 +344,10 @@ public class ThrownMiniLander : MonoBehaviour
         if (m_FullPrefab != null)
         {
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, normal);
-            Instantiate(m_FullPrefab, point + normal * 0.02f, rot);
+            var full = Instantiate(m_FullPrefab, point + normal * 0.02f, rot);
+            // make the spawned object aim-assistable even though it's runtime-made
+            if (full.GetComponent<WebTargetTag>() == null)
+                full.AddComponent<WebTargetTag>();
         }
         Destroy(gameObject);
     }

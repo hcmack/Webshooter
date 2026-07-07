@@ -59,6 +59,9 @@ public class spidermeshwalker : MonoBehaviour
         m_Body.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
+    void OnEnable()  { WebTargetRegistry.Register(transform); }
+    void OnDisable() { WebTargetRegistry.Unregister(transform); }
+
     void FixedUpdate()
     {
         if (!m_Placed) { TryPlaceOnMesh(); return; }

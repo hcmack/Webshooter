@@ -315,17 +315,10 @@ public class WebShooterDual : MonoBehaviour
         }
     }
 
-    Vector3 ApplyAimAssist(Vector3 origin, Vector3 dir)
-    {
-        if (m_TargetsRoot == null) return dir;
-        float bestDot = Mathf.Cos(m_AssistAngle * Mathf.Deg2Rad);
-        Vector3 best = dir;
-        foreach (Transform t in m_TargetsRoot)
-        {
-            Vector3 to = (t.position - origin).normalized;
-            float dot = Vector3.Dot(dir, to);
-            if (dot > bestDot) { bestDot = dot; best = to; }
-        }
-        return best;
-    }
+Vector3 ApplyAimAssist(Vector3 origin, Vector3 dir)
+{
+    var t = WebTargetRegistry.FindInCone(origin, dir, m_AssistAngle);
+    if (t == null) return dir;
+    return (t.position - origin).normalized;
+}
 }
