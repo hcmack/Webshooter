@@ -1,102 +1,72 @@
 using System.Collections;
 using UnityEngine;
 
-// Put this on a Cube (3D Object > Cube). It positions itself in front of you
-// on launch and reacts when a web hits it. The WebShooter calls OnWebHit via
-// SendMessage, so the method name must stay exactly "OnWebHit".
+// Minimal web target. No spawning, no placement, no respawn.
+// It sits wherever you put it in the scene, and when a web hits it, it launches
+// from the impact and (optionally) flashes.
 //
-// Give the cube a URP material (URP/Lit or URP/Unlit) or it renders pink.
-[RequireComponent(typeof(BoxCollider))]
+// SETUP
+//  - Put on any object with a Collider.
+//  - A Rigidbody is added automatically (needed to be launched).
+//  - Give it a URP material so it isn't pink.
+//
+// The WebShooter calls OnWebHit via SendMessage, so keep that method name.
+[RequireComponent(typeof(Collider))]
 public class WebTarget : MonoBehaviour
 {
-    [Header("Spawn placement (relative to your head)")]
-    [SerializeField] float m_Distance = 2.0f;      // meters in front
-    [SerializeField] float m_HeightOffset = 0f;    // + = higher than eye level
-    [SerializeField] bool m_FaceUser = true;
+    [Header("Launch")]
+    [Tooltip("Impulse strength applied along the web's impact direction.")]
+    [SerializeField] float m_LaunchForce = 6f;
+    [Tooltip("Extra upward kick so hits pop the object up a little.")]
+    [SerializeField] float m_UpwardKick = 2f;
+    [Tooltip("Random spin added on hit.")]
+    [SerializeField] float m_Spin = 3f;
 
-    [Header("Hit reaction")]
+    [Header("Flash (optional)")]
+    [SerializeField] bool m_Flash = true;
     [SerializeField] Color m_HitColor = Color.red;
-    [SerializeField] float m_FlashTime = 0.25f;
-    [SerializeField] float m_Knockback = 2.0f;     // needs a Rigidbody to show
+    [SerializeField] float m_FlashTime = 0.2f;
+
+    [Header("Sound (optional)")]
     [SerializeField] AudioSource m_HitSound;
 
-    [Header("Respawn")]
-    [SerializeField] bool m_RespawnAfterHit = true;
-    [SerializeField] float m_RespawnDelay = 0.8f;
-
-    Transform m_Head;
+    Rigidbody m_Body;
     Renderer m_Renderer;
     Color m_BaseColor;
-    Rigidbody m_Body;
-    bool m_Hit;
 
-    void Start()
+    void Awake()
     {
-        m_Head = Camera.main ? Camera.main.transform : null;
+        m_Body = GetComponent<Rigidbody>();
+        if (m_Body == null) m_Body = gameObject.AddComponent<Rigidbody>();
+
         m_Renderer = GetComponentInChildren<Renderer>();
         if (m_Renderer) m_BaseColor = m_Renderer.material.color;
-        m_Body = GetComponent<Rigidbody>();
-        PlaceInFront();
     }
 
-    void PlaceInFront()
-    {
-        if (m_Head == null)
-        {
-            m_Head = Camera.main ? Camera.main.transform : null;
-            if (m_Head == null) return;
-        }
-
-        // flatten forward so the box sits at a stable height, not tilted by gaze
-        Vector3 fwd = m_Head.forward;
-        fwd.y = 0f;
-        if (fwd.sqrMagnitude < 0.001f) fwd = Vector3.forward;
-        fwd.Normalize();
-
-        Vector3 pos = m_Head.position + fwd * m_Distance;
-        pos.y = m_Head.position.y + m_HeightOffset;
-        transform.position = pos;
-
-        if (m_FaceUser)
-            transform.rotation = Quaternion.LookRotation(-fwd, Vector3.up);
-
-        if (m_Body)
-        {
-            m_Body.linearVelocity = Vector3.zero;
-            m_Body.angularVelocity = Vector3.zero;
-        }
-        m_Hit = false;
-        if (m_Renderer) m_Renderer.material.color = m_BaseColor;
-    }
-
-    // Called by WebShooter when a web raycast hits this object's collider.
+    // Called by the web shooter when a web raycast hits this object's collider.
     public void OnWebHit(RaycastHit hit)
     {
-        if (m_Hit) return;
-        m_Hit = true;
+        // launch: push along the web's travel direction (into the object),
+        // i.e. opposite the surface normal, plus an upward pop.
+        Vector3 dir = -hit.normal * m_LaunchForce + Vector3.up * m_UpwardKick;
+        m_Body.AddForceAtPosition(dir, hit.point, ForceMode.Impulse);
+
+        if (m_Spin > 0f)
+            m_Body.AddTorque(Random.insideUnitSphere * m_Spin, ForceMode.Impulse);
 
         if (m_HitSound) m_HitSound.Play();
-        if (m_Body) m_Body.AddForceAtPosition(
-            -hit.normal * m_Knockback, hit.point, ForceMode.Impulse);
 
-        StopAllCoroutines();
-        StartCoroutine(HitRoutine());
+        if (m_Flash && m_Renderer)
+        {
+            StopAllCoroutines();
+            StartCoroutine(FlashRoutine());
+        }
     }
 
-    IEnumerator HitRoutine()
+    IEnumerator FlashRoutine()
     {
-        if (m_Renderer) m_Renderer.material.color = m_HitColor;
+        m_Renderer.material.color = m_HitColor;
         yield return new WaitForSeconds(m_FlashTime);
-        if (m_Renderer) m_Renderer.material.color = m_BaseColor;
-
-        if (m_RespawnAfterHit)
-        {
-            yield return new WaitForSeconds(m_RespawnDelay);
-            PlaceInFront();
-        }
-        else
-        {
-            m_Hit = false; // allow being hit again in place
-        }
+        m_Renderer.material.color = m_BaseColor;
     }
 }

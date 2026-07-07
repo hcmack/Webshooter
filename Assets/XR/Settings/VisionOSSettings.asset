@@ -16,7 +16,7 @@ MonoBehaviour:
   m_HandsTrackingUsageDescription: To Shoot Webs
   m_WorldSensingUsageDescription: To interact with the world around you
   m_RuntimeSettings: {fileID: 11400000, guid: 0dce0e044307cb44f8eb96ef3bea064c, type: 2}
-  m_UpperLimbVisibility: 0
+  m_UpperLimbVisibility: 2
   m_HighQualityRecordingMode: 0
   m_FoveatedRendering: 1
   m_MetalImmersionStyle: 0

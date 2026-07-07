@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8145567928775327470}
   - component: {fileID: 6716017881904302164}
   - component: {fileID: 1965844532960249958}
-  - component: {fileID: 1387586393801398573}
   - component: {fileID: 7676406841826510870}
+  - component: {fileID: 5574870824141043804}
   m_Layer: 0
   m_Name: TargetCube
   m_TagString: Untagged
@@ -114,27 +114,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1387586393801398573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6342753309422873130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1160e40ee577bb343909221ef8067ab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WebTarget
-  m_Distance: 2
-  m_HeightOffset: 0
-  m_FaceUser: 1
-  m_HitColor: {r: 1, g: 0, b: 0, a: 1}
-  m_FlashTime: 0.25
-  m_Knockback: 2
-  m_HitSound: {fileID: 0}
-  m_RespawnAfterHit: 0
-  m_RespawnDelay: 0.8
 --- !u!54 &7676406841826510870
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -162,3 +141,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5574870824141043804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6342753309422873130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1160e40ee577bb343909221ef8067ab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebTarget
+  m_LaunchForce: 6
+  m_UpwardKick: 2
+  m_Spin: 3
+  m_Flash: 1
+  m_HitColor: {r: 1, g: 0, b: 0, a: 1}
+  m_FlashTime: 0.2
+  m_HitSound: {fileID: 0}
