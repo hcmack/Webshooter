@@ -263,6 +263,7 @@ GameObject:
   - component: {fileID: 1922984177612175334}
   - component: {fileID: 3394533808529459444}
   - component: {fileID: 4020213583394798355}
+  - component: {fileID: -5750026867565230956}
   m_Layer: 0
   m_Name: spider_walk
   m_TagString: Untagged
@@ -332,6 +333,28 @@ MonoBehaviour:
   m_TurnInterval: {x: 1.5, y: 4}
   m_WanderAngle: 70
   m_DropSearch: 3
+--- !u!114 &-5750026867565230956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289189784580091228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c68dec53d77b645159c0a77d6e8efcd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportInEffect
+  m_Duration: 0.6
+  m_ScalePop: 1
+  m_Overshoot: 1.15
+  m_EmissiveFlash: 1
+  m_FlashColor: {r: 0.14531296, g: 0.5943396, b: 0.13737096, a: 1}
+  m_FlashIntensity: 4
+  m_UseDissolve: 0
+  m_DissolveProperty: _DissolveAmount
+  m_BurstPrefab: {fileID: 0}
+  m_Sound: {fileID: 0}
 --- !u!1 &1457306067356213789
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1965844532960249958}
   - component: {fileID: 7676406841826510870}
   - component: {fileID: 5574870824141043804}
+  - component: {fileID: 5272492623086986445}
   m_Layer: 0
   m_Name: TargetCube
   m_TagString: Untagged
@@ -160,3 +161,25 @@ MonoBehaviour:
   m_HitColor: {r: 1, g: 0, b: 0, a: 1}
   m_FlashTime: 0.2
   m_HitSound: {fileID: 0}
+--- !u!114 &5272492623086986445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6342753309422873130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c68dec53d77b645159c0a77d6e8efcd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TeleportInEffect
+  m_Duration: 0.6
+  m_ScalePop: 1
+  m_Overshoot: 1.15
+  m_EmissiveFlash: 1
+  m_FlashColor: {r: 0.7924528, g: 0.5365179, b: 0.1009256, a: 1}
+  m_FlashIntensity: 4
+  m_UseDissolve: 0
+  m_DissolveProperty: _DissolveAmount
+  m_BurstPrefab: {fileID: 0}
+  m_Sound: {fileID: 0}
